@@ -87,17 +87,13 @@ while True:
     elif opcao == '5':
         print('-' * 55)
         print('Estatísticas de Tratamento e Faturamento:')
-
         cursor.execute('SELECT procedimento FROM agendamentos GROUP BY procedimento ORDER BY COUNT(*) DESC LIMIT 1')
         tratamento_mais_frequente = cursor.fetchone()[0]
         print(f"Tratamento mais Procurado na clinica: {tratamento_mais_frequente}")
-
         cursor.execute('SELECT SUM(valor) FROM agendamentos WHERE LOWER(faltou) = "nao"')
         faturamento_total = cursor.fetchone()[0] or 0.0
-
         cursor.execute('SELECT SUM(valor) FROM agendamentos WHERE LOWER(faltou) = "sim"')
         faturamento_perdido = cursor.fetchone()[0] or 0.0
-
         print(f"Faturamento total da clinica: R$ {faturamento_total:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
         print(f"Faturamento perdido devido a faltas: R$ {faturamento_perdido:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
         print('-' * 55)
